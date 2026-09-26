@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>
+(function(){
+  try{
+    var params=new URLSearchParams(location.search);
+    if(params.get('lang')){ localStorage.setItem('curomee-lang', params.get('lang')); }
+    var saved=localStorage.getItem('curomee-lang');
+    var target=saved;
+    if(!target){
+      var nav=((navigator.language||navigator.userLanguage||'')+'').toLowerCase();
+      target = nav.indexOf('ja')===0 ? 'ja' : 'en';
+    }
+    if(target==='ja'){
+      location.replace('index.ja.html'+location.hash);
+    }
+  }catch(e){}
+})();
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>curomee ― A voice for the cat who can't speak, brought to you.</title>
+<meta name="description" content="curomee is a Windows app that gently lets you know when your cat hops onto your keyboard — with detection history, CPH analytics, and shareable SNS images that turn an interruption into a reminder of the time you share.">
+<link rel="icon" href="images/curomee.ico">
+<link rel="apple-touch-icon" href="images/curomee.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-void:#f2ead9;
+    --bg-room:#ece1cd;
+    --bg-card:#ece1cd;
+    --line:#ddd0b8;
+    --terracotta:#c16d4a;
+    --terracotta-bright:#e2895f;
+    --glow:#9c5a18;
+    --cream:#2a1f16;
+    --cream-dim:#5c4c3c;
+    --muted:#7a6650;
+    --ink:#120d0a;
+    --chip-light:#ece1cd;
+    --tag-update-bg:rgba(193,109,74,0.15);
+    --tag-update-text:var(--terracotta-bright);
+    --tag-mission-bg:rgba(156,90,24,0.15);
+    --tag-mission-text:var(--glow);
+    --tag-data-bg:rgba(91,124,153,0.15);
+    --tag-data-text:#5b7c99;
+    --font-display:'Fraunces', serif;
+    --font-body:'Inter', sans-serif;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--bg-void);
+    color:var(--cream);
+    font-family:var(--font-body);
+    line-height:1.8;
+    overflow-x:hidden;
+  }
+
+  a{color:inherit;}
+
+  img{max-width:100%; display:block;}
+
+  :focus-visible{
+    outline:2px solid var(--glow);
+    outline-offset:3px;
+  }
+
+  .wrap{
+    max-width:1040px;
+    margin:0 auto;
+    padding:0 28px;
+  }
+
+  /* ---------- header ---------- */
+  header{
+    position:fixed;
+    top:0; left:0; right:0;
+    z-index:100;
+    background:rgba(242,234,217,0.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:12px 28px;
+    max-width:1040px;
+    margin:0 auto;
+    gap:20px;
+  }
+  .nav-left{
+    display:flex;
+    align-items:center;
+    gap:14px;
+  }
+  .nav-right{
+    display:flex;
+    align-items:center;
+    gap:24px;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    text-decoration:none;
+    transition:transform .18s ease;
+  }
+  .brand:hover{transform:translateY(-1px);}
+  .brand-icon{height:30px; width:30px; display:block;}
+  .brand-logo{height:22px; width:auto; display:block;}
+  .header-socials{
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .header-socials a{
+    width:30px; height:30px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--cream-dim);
+    transition:color .2s, border-color .2s;
+  }
+  .header-socials a:hover{color:var(--terracotta-bright); border-color:var(--terracotta-bright);}
+  .header-socials svg{width:14px; height:14px;}
+  .nav-links{
+    display:flex;
+    align-items:center;
+    gap:24px;
+    font-size:.86rem;
+    letter-spacing:.03em;
+  }
+  .nav-links a{text-decoration:none; color:var(--cream-dim); transition:color .2s;}
+  .nav-links a:hover{color:var(--glow);}
+  .lang-pill{
+    display:flex;
+    background:var(--bg-card);
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:3px;
+  }
+  .lang-pill-option{
+    padding:6px 14px;
+    border-radius:999px;
+    font-size:.72rem;
+    letter-spacing:.05em;
+    text-decoration:none;
+    color:var(--cream-dim);
+  }
+  .lang-pill-option.is-active{
+    background:var(--terracotta);
+    color:var(--ink);
+    font-weight:700;
+  }
+  a.lang-pill-option:hover{color:var(--terracotta-bright);}
+  @media (max-width:640px){
+    .nav-links, .header-socials{display:none;}
+  }
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative;
+    min-height:100svh;
+    display:flex;
+    align-items:center;
+    padding:120px 0 60px;
+    background:
+      radial-gradient(ellipse 60% 50% at 78% 22%, rgba(240,167,94,0.22), transparent 60%),
+      radial-gradient(ellipse 80% 60% at 20% 80%, rgba(193,109,74,0.15), transparent 60%),
+      var(--bg-void);
+    overflow:hidden;
+  }
+  .hero > .wrap{position:relative; z-index:2;}
+  .hero-grid{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:48px;
+  }
+  .hero-content{max-width:560px; flex:1 1 480px;}
+  .hero-visual{flex:1 1 400px; max-width:440px;}
+  .hero-visual img{
+    width:100%;
+    box-shadow:0 24px 60px rgba(18,13,10,0.22);
+  }
+  @media (max-width:860px){
+    .hero-grid{flex-direction:column; align-items:stretch;}
+    .hero-visual{max-width:100%;}
+  }
+  @media (min-width:861px){
+    .hero{padding:140px 0 100px;}
+  }
+
+  .eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-size:.78rem;
+    letter-spacing:.16em;
+    color:var(--terracotta-bright);
+    margin-bottom:22px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:22px; height:1px;
+    background:var(--terracotta-bright);
+  }
+
+  h1{
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:clamp(2.2rem, 5vw, 3.4rem);
+    line-height:1.45;
+    color:var(--cream);
+    margin-bottom:26px;
+  }
+  h1 em{
+    font-style:normal;
+    color:var(--terracotta-bright);
+  }
+
+  .hero-lead{
+    color:var(--cream-dim);
+    font-size:1.02rem;
+    max-width:44ch;
+  }
+
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:14px 26px;
+    border-radius:8px;
+    font-size:.92rem;
+    font-weight:700;
+    letter-spacing:.02em;
+    text-decoration:none;
+    transition:transform .18s ease, box-shadow .18s ease;
+  }
+  .btn-ghost{
+    border:1px solid var(--line);
+    color:var(--cream-dim);
+  }
+  .btn-ghost:hover{border-color:var(--terracotta-bright); color:var(--terracotta-bright);}
+  .btn-disabled{
+    background:transparent;
+    border:1px solid var(--line);
+    color:var(--muted);
+    cursor:default;
+    pointer-events:none;
+  }
+  .btn-sns{
+    width:42px; height:42px;
+    padding:0;
+    border-radius:50%;
+    border:1px solid var(--line);
+    color:var(--cream-dim);
+    justify-content:center;
+  }
+  .btn-sns:hover{border-color:var(--terracotta-bright); color:var(--terracotta-bright);}
+  .btn-sns svg{width:18px; height:18px;}
+
+  /* ---------- section shared ---------- */
+  section{padding:100px 0;}
+  .section-head{
+    max-width:640px;
+    margin-bottom:60px;
+  }
+  .section-head .eyebrow{margin-bottom:16px;}
+  h2{
+    font-family:var(--font-display);
+    font-size:clamp(1.6rem, 3vw, 2.1rem);
+    font-weight:700;
+    color:var(--cream);
+    margin-bottom:16px;
+  }
+  .section-lead{color:var(--cream-dim); font-size:.98rem;}
+
+  /* ---------- features ---------- */
+  .feature-list{
+    display:grid;
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+    border-radius:16px;
+    overflow:hidden;
+  }
+  .feature-row{
+    display:grid;
+    grid-template-columns:220px 1fr;
+    gap:28px;
+    background:var(--bg-void);
+    padding:32px 30px;
+    align-items:start;
+  }
+  @media (max-width:700px){
+    .feature-row{grid-template-columns:1fr; gap:10px;}
+  }
+  .feature-row h3{
+    font-family:var(--font-display);
+    font-size:1.1rem;
+    color:var(--terracotta-bright);
+    font-weight:700;
+  }
+  .feature-row p{color:var(--cream-dim); font-size:.92rem; max-width:56ch;}
+  .feature-tags{
+    display:flex; gap:8px; flex-wrap:wrap; margin-top:12px;
+  }
+  .feature-tags span{
+    font-size:.72rem;
+    color:var(--muted);
+    border:1px solid var(--line);
+    padding:4px 10px;
+    border-radius:999px;
+  }
+
+  /* ---------- languages strip ---------- */
+  .lang-strip{
+    margin-top:28px;
+    padding-top:28px;
+    border-top:1px solid var(--line);
+  }
+  .lang-strip .lang-strip-label{
+    font-size:.76rem;
+    letter-spacing:.1em;
+    color:var(--muted);
+    margin-bottom:14px;
+  }
+  .lang-chips{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .lang-chips span{
+    font-size:.78rem;
+    color:var(--cream-dim);
+    border:1px solid var(--line);
+    padding:6px 13px;
+    border-radius:999px;
+  }
+
+  /* ---------- mission ---------- */
+  .mission{
+    background:var(--bg-room);
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+  }
+  .mission-head{
+    max-width:none;
+    margin-bottom:0;
+  }
+  .mission-lead-row{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:40px;
+  }
+  .mission-lead-row .section-lead{max-width:560px;}
+  @media (max-width:760px){
+    .mission-lead-row{flex-direction:column;}
+  }
+  .mission-status{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    text-align:center;
+    padding:22px 30px;
+    border:1px dashed var(--line);
+    border-radius:12px;
+    min-width:200px;
+  }
+  .mission-status .label{font-size:.72rem; letter-spacing:.08em; color:var(--muted);}
+  .mission-status .value{font-family:var(--font-display); font-weight:700; font-size:1.3rem; color:var(--glow);}
+
+  /* ---------- research ---------- */
+  .research-head{
+    max-width:none;
+    margin-bottom:0;
+  }
+  .research-lead-row{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:40px;
+  }
+  .research-lead-row .section-lead{max-width:560px;}
+  .research-lead-row .section-lead p{margin-bottom:14px;}
+  .research-lead-row .section-lead ul{margin:0 0 14px 1.2em; padding:0;}
+  .research-lead-row .section-lead li{margin-bottom:6px;}
+  .research-lead-row .section-lead p:last-child,
+  .research-lead-row .section-lead ul:last-child{margin-bottom:0;}
+  @media (max-width:760px){
+    .research-lead-row{flex-direction:column;}
+  }
+
+  /* ---------- news ---------- */
+  .news-list{
+    display:grid;
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+    border-radius:16px;
+    overflow:hidden;
+  }
+  .news-item{
+    display:flex;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:14px;
+    background:var(--bg-void);
+    padding:22px 26px;
+  }
+  .news-date{
+    font-family:var(--font-display);
+    font-size:.82rem;
+    color:var(--muted);
+    letter-spacing:.03em;
+    min-width:96px;
+  }
+  .news-tag{
+    display:inline-flex;
+    align-items:center;
+    font-size:.72rem;
+    font-weight:700;
+    letter-spacing:.02em;
+    padding:4px 12px;
+    border-radius:999px;
+    white-space:nowrap;
+  }
+  .news-tag.tag-update{background:var(--tag-update-bg); color:var(--tag-update-text);}
+  .news-tag.tag-mission{background:var(--tag-mission-bg); color:var(--tag-mission-text);}
+  .news-tag.tag-data{background:var(--tag-data-bg); color:var(--tag-data-text);}
+  .news-title{
+    font-size:.92rem;
+    color:var(--cream);
+    text-decoration:none;
+    flex:1;
+    min-width:200px;
+  }
+  a.news-title:hover{color:var(--terracotta-bright);}
+  .news-empty{color:var(--cream-dim); font-size:.92rem; padding:22px 26px; background:var(--bg-void);}
+  .news-more-wrap{
+    display:flex;
+    justify-content:center;
+    margin-top:32px;
+  }
+  @media (max-width:640px){
+    .news-item{padding:18px 20px;}
+    .news-date{min-width:auto;}
+  }
+
+  /* ---------- download ---------- */
+  .download{text-align:center;}
+  .download h2{margin-bottom:14px;}
+  .download p{color:var(--cream-dim); max-width:48ch; margin:0 auto 34px;}
+  .download-cta-row{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:14px;
+    flex-wrap:wrap;
+  }
+  .download-note{
+    margin-top:22px;
+    font-size:.82rem;
+    color:var(--muted);
+  }
+  .download-socials{
+    margin-top:30px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+  }
+
+  /* ---------- footer ---------- */
+  footer{
+    border-top:1px solid var(--line);
+    padding:44px 0 40px;
+  }
+  .foot-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:16px;
+  }
+  .foot-brand{
+    font-size:.82rem;
+    color:var(--muted);
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .foot-brand .logo-badge{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    background:var(--chip-light);
+    padding:5px 12px;
+    border-radius:8px;
+  }
+  .foot-brand .logo-badge .brand-icon{height:16px; width:16px; display:block;}
+  .foot-brand .logo-badge .brand-logo{height:15px; width:auto; display:block;}
+  .foot-links{
+    display:flex;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:20px;
+    font-size:.82rem;
+  }
+  .foot-links a{text-decoration:none; color:var(--cream-dim); display:flex; align-items:center;}
+  .foot-links a:hover{color:var(--terracotta-bright);}
+  .foot-links svg{width:16px; height:16px;}
+  .foot-legal{
+    border-top:1px solid var(--line);
+    margin-top:28px;
+    padding-top:20px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:20px;
+    font-size:.78rem;
+    color:var(--muted);
+  }
+  .foot-legal a{color:var(--muted); text-decoration:none;}
+  .foot-legal a:hover{color:var(--terracotta-bright);}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <div class="nav-left">
+      <a href="#top" class="brand">
+        <img src="images/curomee.png" alt="" class="brand-icon">
+        <img src="images/curomee-logo.png" alt="curomee" class="brand-logo">
+      </a>
+      <div class="header-socials">
+        <a href="https://x.com/curomee_app" target="_blank" rel="noopener" aria-label="curomee on X">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 2H22l-7.6 8.7L23.3 22h-7l-5.5-7.2L4.5 22H1.3l8.1-9.3L1 2h7.2l5 6.6L18.9 2Zm-1.2 18h1.7L7.4 4h-1.8l12.1 16Z"/></svg>
+        </a>
+        <a href="https://instagram.com/curomee_app" target="_blank" rel="noopener" aria-label="curomee on Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="nav-right">
+      <nav class="nav-links">
+        <a href="#news">News</a>
+        <a href="#download">Download</a>
+      </nav>
+      <div class="lang-pill" role="group" aria-label="Language">
+        <span class="lang-pill-option is-active">ENGLISH</span>
+        <a href="index.ja.html" class="lang-pill-option" onclick="try{localStorage.setItem('curomee-lang','ja')}catch(e){}">日本語</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-grid">
+        <div class="hero-content">
+          <h1>The voice of a cat who can't speak, brought to <em>you</em>.</h1>
+          <p class="hero-lead">
+            When your cat sits on your keyboard, it's not to annoy you — it might be
+            a quiet message saying, "look at me, right now." curomee carries that
+            voice to you, offering a moment to notice the precious life right here
+            with you. It's a small safeguard against regret — a quiet mechanism
+            that protects the time you share with your cat.
+          </p>
+        </div>
+        <div class="hero-visual">
+          <img src="images/hero-cat.png" alt="A cat sleeping on a laptop keyboard next to curomee's detection notification">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="news" id="news">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>News</h2>
+        <p class="section-lead">The latest updates from curomee.</p>
+      </div>
+      <div class="news-list" id="newsList"></div>
+      <div class="news-more-wrap">
+        <button type="button" class="btn btn-ghost" id="newsMoreBtn" hidden>Show more</button>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="download" id="download">
+    <div class="wrap">
+      <h2>Coming soon to your PC.</h2>
+      <p>We're preparing for public release — please hold on just a little longer.</p>
+      <div class="download-cta-row">
+        <span class="btn btn-disabled" aria-disabled="true">Download coming soon</span>
+        <a href="https://forms.gle/3b2nz7bhbaXAQifN6" class="btn btn-ghost" target="_blank" rel="noopener">Send feedback</a>
+      </div>
+      <div class="download-socials">
+        <a href="https://x.com/curomee_app" class="btn btn-sns" target="_blank" rel="noopener" aria-label="curomee on X">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 2H22l-7.6 8.7L23.3 22h-7l-5.5-7.2L4.5 22H1.3l8.1-9.3L1 2h7.2l5 6.6L18.9 2Zm-1.2 18h1.7L7.4 4h-1.8l12.1 16Z"/></svg>
+        </a>
+        <a href="https://instagram.com/curomee_app" class="btn btn-sns" target="_blank" rel="noopener" aria-label="curomee on Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-row">
+      <div class="foot-brand">
+        <span class="logo-badge">
+          <img src="images/curomee.png" alt="" class="brand-icon">
+          <img src="images/curomee-logo.png" alt="curomee" class="brand-logo">
+        </span>
+        by Quattro Gatti
+      </div>
+      <div class="foot-links">
+        <a href="#news">News</a>
+        <a href="https://forms.gle/3b2nz7bhbaXAQifN6" target="_blank" rel="noopener">Feedback</a>
+        <a href="https://x.com/curomee_app" target="_blank" rel="noopener" aria-label="X">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 2H22l-7.6 8.7L23.3 22h-7l-5.5-7.2L4.5 22H1.3l8.1-9.3L1 2h7.2l5 6.6L18.9 2Zm-1.2 18h1.7L7.4 4h-1.8l12.1 16Z"/></svg>
+        </a>
+        <a href="https://instagram.com/curomee_app" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a href="index.ja.html" onclick="try{localStorage.setItem('curomee-lang','ja')}catch(e){}">日本語</a>
+      </div>
+    </div>
+    <div class="foot-legal">
+      <a href="privacy.html">Privacy Policy</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var INITIAL_COUNT = 3;
+  var listEl = document.getElementById('newsList');
+  var moreBtn = document.getElementById('newsMoreBtn');
+  if(!listEl) return;
+
+  var CATEGORY_CLASS = {
+    'Update':'tag-update',
+    'Cat Rescue':'tag-mission',
+    'Data Analysis':'tag-data'
+  };
+
+  function formatDate(str){
+    var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(str||'');
+    return m ? (m[1]+'.'+m[2]+'.'+m[3]) : (str||'');
+  }
+
+  function renderItem(item){
+    var row = document.createElement('div');
+    row.className = 'news-item';
+
+    var date = document.createElement('span');
+    date.className = 'news-date';
+    date.textContent = formatDate(item.date);
+    row.appendChild(date);
+
+    var tag = document.createElement('span');
+    tag.className = 'news-tag ' + (CATEGORY_CLASS[item.category] || 'tag-update');
+    tag.textContent = item.category || '';
+    row.appendChild(tag);
+
+    var title;
+    if(item.link){
+      title = document.createElement('a');
+      title.href = item.link;
+      title.className = 'news-title';
+      if(/^https?:\/\//.test(item.link)){
+        title.target = '_blank';
+        title.rel = 'noopener';
+      }
+    } else {
+      title = document.createElement('span');
+      title.className = 'news-title';
+    }
+    title.textContent = item.title || '';
+    row.appendChild(title);
+
+    return row;
+  }
+
+  fetch('news.json')
+    .then(function(res){ return res.ok ? res.json() : []; })
+    .then(function(items){
+      if(!Array.isArray(items) || items.length === 0){
+        var empty = document.createElement('p');
+        empty.className = 'news-empty';
+        empty.textContent = 'No news yet.';
+        listEl.appendChild(empty);
+        return;
+      }
+
+      items = items.slice().sort(function(a, b){
+        return (b.date || '').localeCompare(a.date || '');
+      });
+
+      items.forEach(function(item, i){
+        var row = renderItem(item);
+        if(i >= INITIAL_COUNT) row.hidden = true;
+        listEl.appendChild(row);
+      });
+
+      if(items.length > INITIAL_COUNT && moreBtn){
+        moreBtn.hidden = false;
+        moreBtn.addEventListener('click', function(){
+          Array.prototype.forEach.call(listEl.querySelectorAll('.news-item'), function(row){
+            row.hidden = false;
+          });
+          moreBtn.hidden = true;
+        });
+      }
+    })
+    .catch(function(){
+      var empty = document.createElement('p');
+      empty.className = 'news-empty';
+      empty.textContent = 'Failed to load news.';
+      listEl.appendChild(empty);
+    });
+})();
+</script>
+
+</body>
+</html>
