@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <script>
@@ -13,20 +13,20 @@
       var nav=((navigator.language||navigator.userLanguage||'')+'').toLowerCase();
       target = nav.indexOf('ja')===0 ? 'ja' : 'en';
     }
-    if(target==='en'){
-      location.replace('index.html'+location.hash);
+    if(target==='ja'){
+      location.replace('index.ja.html'+location.hash);
     }
   }catch(e){}
 })();
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>curomee ― しゃべれない猫の声を、あなたに。</title>
-<meta name="description" content="curomeeは、猫がキーボードに乗ったときにそっと知らせてくれるWindowsアプリです。猫検知履歴やCPH分析、SNSシェア画像まで、猫と過ごす時間の大切さに気づくきっかけを届けます。">
+<title>curomee ― A voice for the cat who can't speak, brought to you.</title>
+<meta name="description" content="curomee is a Windows app that gently lets you know when your cat hops onto your keyboard — with detection history, CPH analytics, and shareable SNS images that turn an interruption into a reminder of the time you share.">
 <link rel="icon" href="images/curomee.ico">
 <link rel="apple-touch-icon" href="images/curomee.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=Zen+Maru+Gothic:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg-void:#f2ead9;
@@ -47,8 +47,8 @@
     --tag-mission-text:var(--glow);
     --tag-data-bg:rgba(91,124,153,0.15);
     --tag-data-text:#5b7c99;
-    --font-display:'Zen Maru Gothic', sans-serif;
-    --font-body:'Zen Kaku Gothic New', 'Meiryo', sans-serif;
+    --font-display:'Fraunces', serif;
+    --font-body:'Inter', sans-serif;
   }
 
   *{box-sizing:border-box; margin:0; padding:0;}
@@ -408,6 +408,7 @@
   @media (max-width:760px){
     .research-lead-row{flex-direction:column;}
   }
+
   /* ---------- news ---------- */
   .news-list{
     display:grid;
@@ -551,25 +552,22 @@
         <img src="images/curomee-logo.png" alt="curomee" class="brand-logo">
       </a>
       <div class="header-socials">
-        <a href="https://x.com/curomee_app" target="_blank" rel="noopener" aria-label="curomee公式X">
+        <a href="https://x.com/curomee_app" target="_blank" rel="noopener" aria-label="curomee on X">
           <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 2H22l-7.6 8.7L23.3 22h-7l-5.5-7.2L4.5 22H1.3l8.1-9.3L1 2h7.2l5 6.6L18.9 2Zm-1.2 18h1.7L7.4 4h-1.8l12.1 16Z"/></svg>
         </a>
-        <a href="https://instagram.com/curomee_app" target="_blank" rel="noopener" aria-label="curomee公式Instagram">
+        <a href="https://instagram.com/curomee_app" target="_blank" rel="noopener" aria-label="curomee on Instagram">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg>
         </a>
       </div>
     </div>
     <div class="nav-right">
       <nav class="nav-links">
-        <a href="#news">お知らせ</a>
-        <a href="#features">機能</a>
-        <a href="#mission">保護猫活動</a>
-        <a href="#research">みんなで研究</a>
-        <a href="#download">ダウンロード</a>
+        <a href="#news">News</a>
+        <a href="#download">Download</a>
       </nav>
-      <div class="lang-pill" role="group" aria-label="言語切り替え">
-        <span class="lang-pill-option is-active">日本語</span>
-        <a href="index.html" class="lang-pill-option" onclick="try{localStorage.setItem('curomee-lang','en')}catch(e){}">ENGLISH</a>
+      <div class="lang-pill" role="group" aria-label="Language">
+        <span class="lang-pill-option is-active">ENGLISH</span>
+        <a href="index.ja.html" class="lang-pill-option" onclick="try{localStorage.setItem('curomee-lang','ja')}catch(e){}">日本語</a>
       </div>
     </div>
   </div>
@@ -581,16 +579,17 @@
     <div class="wrap">
       <div class="hero-grid">
         <div class="hero-content">
-          <h1>しゃべれない猫の声を、<em>あなた</em>に届ける。</h1>
+          <h1>The voice of a cat who can't speak, brought to <em>you</em>.</h1>
           <p class="hero-lead">
-            猫がキーボードに乗るのは、あなたを困らせるためではなく、「今、私を見て」
-            という静かなメッセージかもしれません。curomeeは、その声をあなたに伝え、
-            「今ここにある大切な命」と向き合うきっかけを届けます。それは、後悔しない
-            ための小さな予防線。あなたと猫の時間を守る、静かな仕掛けです。
+            When your cat sits on your keyboard, it's not to annoy you — it might be
+            a quiet message saying, "look at me, right now." curomee carries that
+            voice to you, offering a moment to notice the precious life right here
+            with you. It's a small safeguard against regret — a quiet mechanism
+            that protects the time you share with your cat.
           </p>
         </div>
         <div class="hero-visual">
-          <img src="images/hero-cat.png" alt="ノートPCのキーボードの上で眠る猫と、curomeeの猫検知通知">
+          <img src="images/hero-cat.png" alt="A cat sleeping on a laptop keyboard next to curomee's detection notification">
         </div>
       </div>
     </div>
@@ -599,130 +598,30 @@
   <section class="news" id="news">
     <div class="wrap">
       <div class="section-head">
-        <h2>お知らせ</h2>
-        <p class="section-lead">curomeeに関する最新情報をお届けします。</p>
+        <h2>News</h2>
+        <p class="section-lead">The latest updates from curomee.</p>
       </div>
       <div class="news-list" id="newsList"></div>
       <div class="news-more-wrap">
-        <button type="button" class="btn btn-ghost" id="newsMoreBtn" hidden>もっと見る</button>
+        <button type="button" class="btn btn-ghost" id="newsMoreBtn" hidden>Show more</button>
       </div>
     </div>
   </section>
 
-  <section id="features">
-    <div class="wrap">
-      <div class="section-head">
-        <h2>curomeeにできること</h2>
-      </div>
-      <div class="feature-list">
-        <div class="feature-row">
-          <h3>猫を賢く見分ける検知エンジン</h3>
-          <p>「同時に押されたキーの数」と「押し続けた時間」の組み合わせで、猫がキーボードに乗った瞬間だけを検知します。誤検知が気になる場合は1〜6キー×1〜10秒の範囲で感度を調整可能。</p>
-          <div class="feature-tags"><span>猫検知感度カスタマイズ</span></div>
-        </div>
-        <div class="feature-row">
-          <h3>猫検知をトースト通知と声でお知らせ</h3>
-          <p>猫検知時の通知は、PCの声・猫の声・自分で準備した音声から選択できます。音量調整やミュート、通知アイコンの変更もでき、「テスト通知」でいつでも見え方を確認できます。UIは13言語に対応。</p>
-          <div class="feature-tags"><span>音声カスタマイズ</span><span>13言語対応</span></div>
-        </div>
-        <div class="feature-row">
-          <h3>猫検知の履歴をそのまま記録</h3>
-          <p>今日・今週・累計の猫検知回数がひと目でわかります。猫検知はセッション(起動〜終了)ごとに時系列で並び、正検知・誤検知のチェックや個別削除、全削除も可能。猫検知イベントとセッションの一覧をCSV(ZIP)でエクスポートできます。</p>
-          <div class="feature-tags"><span>履歴管理</span><span>CSVエクスポート</span></div>
-        </div>
-        <div class="feature-row">
-          <h3>CPHで振り返る、猫との時間</h3>
-          <p>猫検知の頻度を正しく比較できるよう、稼働時間あたりの検知回数を表す指標「CPH(Cat detections Per Hundred hours)」を算出しています。現在値・過去最高値・全期間の値に加え、曜日別・月別の検知回数とCPHもグラフで確認できます。PCを起動してから初めて猫が来るまでの時間も、ヒストグラムで振り返れます。</p>
-          <div class="feature-tags"><span>CPH分析</span><span>曜日・月別グラフ</span></div>
-        </div>
-        <div class="feature-row">
-          <h3>お気に入りの記録をSNSへ</h3>
-          <p>猫検知履歴やCPH、各種グラフから好きな項目を選んで、正方形のシェア画像を最大2種類同時に作成できます。背景写真はズームとドラッグで好きな位置に調整でき、画像ごとに表示言語も切り替え可能。ハッシュタグはワンタップでコピーできます。</p>
-          <div class="feature-tags"><span>#curomee</span><span>#LaptopCat</span></div>
-        </div>
-        <div class="feature-row">
-          <h3>大切な記録を、失わないために</h3>
-          <p>データの保存先フォルダは自由に変更可能。設定・履歴・音声・画像はZIPでバックアップ・復元でき、機種変更の際もそのまま引き継げます。Windows起動時の自動起動にも対応しています。</p>
-          <div class="feature-tags"><span>バックアップ&復元</span><span>自動起動</span></div>
-        </div>
-      </div>
-
-      <div class="lang-strip">
-        <p class="lang-strip-label">対応言語 (13言語)</p>
-        <div class="lang-chips">
-          <span>日本語</span><span>English</span><span>中文(简体)</span><span>中文(繁體)</span>
-          <span>한국어</span><span>Deutsch</span><span>Español</span><span>Français</span>
-          <span>Bahasa Indonesia</span><span>Italiano</span><span>Português</span>
-          <span>Русский</span><span>Українська</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="mission" id="mission">
-    <div class="wrap">
-      <div class="section-head mission-head">
-        <h2>猫の声は、次の猫へつながる。</h2>
-        <div class="mission-lead-row">
-          <p class="section-lead">
-            ユーザーの皆さんが増えてきたら、今の体験は無料のまま、新しく小さな有料機能を追加していく予定です。
-            その収益は、開発や運営にかかる費用を除き、保護猫活動への支援にあてていきます。
-          </p>
-          <div class="mission-status">
-            <span class="label">CURRENT STATUS</span>
-            <span class="value">準備中</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="research" id="research">
-    <div class="wrap">
-      <div class="section-head research-head">
-        <h2>みんなで研究</h2>
-        <div class="research-lead-row">
-          <div class="section-lead">
-            <p>
-              「猫はなぜキーボードに乗るのか?」を明らかにするための研究に取り組みます。これまでにも
-              さまざまな説が語られてきましたが、実際の猫の行動データをもとにした大規模な検証は、
-              まだ十分に行われていません。
-            </p>
-            <p>たとえば、次のようなことを調べます。</p>
-            <ul>
-              <li>猫がキーボードに乗る頻度に、雌雄、季節、品種、年齢、地域による違いはあるのでしょうか?</li>
-              <li>飼い主の反応によって、その後の頻度は変わるのでしょうか?</li>
-              <li>飼い主がそばにいないときでも、猫はキーボードに乗るのでしょうか?</li>
-              <li>飼い主がPCを使い始めてから、何分で猫はキーボードに乗るのでしょうか?</li>
-            </ul>
-            <p>
-              この研究では、同意していただいた方からのみデータを提供していただきます。提供いただいた
-              データはプライバシーに十分配慮したうえで整理・公開し、世界中の誰もがデータを見て、
-              分析や考察に参加できる研究を目指します。
-            </p>
-          </div>
-          <div class="mission-status">
-            <span class="label">CURRENT STATUS</span>
-            <span class="value">準備中</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <section class="download" id="download">
     <div class="wrap">
-      <h2>あなたのPCに、curomeeを。</h2>
-      <p>curomeeを一般公開しました。Microsoft Storeからダウンロードして、猫の声を受け取ってみてください。</p>
+      <h2>Now available for your PC.</h2>
+      <p>curomee is now publicly available. Get it from the Microsoft Store and let your cat's voice reach you.</p>
       <div class="download-cta-row">
-        <a href="https://apps.microsoft.com/detail/9NDTJXZDZC0B?hl=ja-JP&gl=JP" class="btn btn-primary" target="_blank" rel="noopener">Microsoft Store で入手</a>
-        <a href="https://forms.gle/3b2nz7bhbaXAQifN6" class="btn btn-ghost" target="_blank" rel="noopener">ご意見・ご要望を送る</a>
+        <a href="https://apps.microsoft.com/detail/9NDTJXZDZC0B" class="btn btn-primary" target="_blank" rel="noopener">Get it from Microsoft Store</a>
+        <a href="https://forms.gle/3b2nz7bhbaXAQifN6" class="btn btn-ghost" target="_blank" rel="noopener">Send feedback</a>
       </div>
       <div class="download-socials">
-        <a href="https://x.com/curomee_app" class="btn btn-sns" target="_blank" rel="noopener" aria-label="curomee公式X">
+        <a href="https://x.com/curomee_app" class="btn btn-sns" target="_blank" rel="noopener" aria-label="curomee on X">
           <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 2H22l-7.6 8.7L23.3 22h-7l-5.5-7.2L4.5 22H1.3l8.1-9.3L1 2h7.2l5 6.6L18.9 2Zm-1.2 18h1.7L7.4 4h-1.8l12.1 16Z"/></svg>
         </a>
-        <a href="https://instagram.com/curomee_app" class="btn btn-sns" target="_blank" rel="noopener" aria-label="curomee公式Instagram">
+        <a href="https://instagram.com/curomee_app" class="btn btn-sns" target="_blank" rel="noopener" aria-label="curomee on Instagram">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg>
         </a>
       </div>
@@ -742,22 +641,19 @@
         by Quattro Gatti
       </div>
       <div class="foot-links">
-        <a href="#news">お知らせ</a>
-        <a href="#features">機能</a>
-        <a href="#mission">保護猫活動</a>
-        <a href="#research">みんなで研究</a>
-        <a href="https://forms.gle/3b2nz7bhbaXAQifN6" target="_blank" rel="noopener">フィードバック</a>
+        <a href="#news">News</a>
+        <a href="https://forms.gle/3b2nz7bhbaXAQifN6" target="_blank" rel="noopener">Feedback</a>
         <a href="https://x.com/curomee_app" target="_blank" rel="noopener" aria-label="X">
           <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 2H22l-7.6 8.7L23.3 22h-7l-5.5-7.2L4.5 22H1.3l8.1-9.3L1 2h7.2l5 6.6L18.9 2Zm-1.2 18h1.7L7.4 4h-1.8l12.1 16Z"/></svg>
         </a>
         <a href="https://instagram.com/curomee_app" target="_blank" rel="noopener" aria-label="Instagram">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg>
         </a>
-        <a href="index.html" onclick="try{localStorage.setItem('curomee-lang','en')}catch(e){}">English</a>
+        <a href="index.ja.html" onclick="try{localStorage.setItem('curomee-lang','ja')}catch(e){}">日本語</a>
       </div>
     </div>
     <div class="foot-legal">
-      <a href="privacy.ja.html">プライバシーポリシー</a>
+      <a href="privacy.html">Privacy Policy</a>
     </div>
   </div>
 </footer>
@@ -770,9 +666,9 @@
   if(!listEl) return;
 
   var CATEGORY_CLASS = {
-    'アップデート':'tag-update',
-    '保護猫活動':'tag-mission',
-    'データ分析':'tag-data'
+    'Update':'tag-update',
+    'Cat Rescue':'tag-mission',
+    'Data Analysis':'tag-data'
   };
 
   function formatDate(str){
@@ -813,13 +709,13 @@
     return row;
   }
 
-  fetch('news.ja.json')
+  fetch('news.json')
     .then(function(res){ return res.ok ? res.json() : []; })
     .then(function(items){
       if(!Array.isArray(items) || items.length === 0){
         var empty = document.createElement('p');
         empty.className = 'news-empty';
-        empty.textContent = 'お知らせは現在ありません。';
+        empty.textContent = 'No news yet.';
         listEl.appendChild(empty);
         return;
       }
@@ -847,7 +743,7 @@
     .catch(function(){
       var empty = document.createElement('p');
       empty.className = 'news-empty';
-      empty.textContent = 'お知らせの読み込みに失敗しました。';
+      empty.textContent = 'Failed to load news.';
       listEl.appendChild(empty);
     });
 })();
